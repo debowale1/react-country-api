@@ -22,7 +22,6 @@ const Details = () => {
 
   return (
     <div>
-      {/* <h1>country: {name}</h1>  */}
       {country.map(c => {
         const { alpha2Code} = c;
         return <Detail key={alpha2Code} country={c} />        

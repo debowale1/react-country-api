@@ -21,8 +21,6 @@ function Detail(props) {
       languageText += " ";
     }
     
-
-  console.log(props.country);
   return (
     <>
       <section className="back">
