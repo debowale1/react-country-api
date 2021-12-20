@@ -1,30 +1,30 @@
-import React, {useState, useEffect} from 'react'
-// import {Consumer} from '../../context';
+import React, {useEffect} from 'react'
 import {useParams} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import Detail from '../layouts/Detail'
+import { fetchCountryByName } from '../../actions/countryActions'
+import Loader from '../Loader';
 
-import Detail from '../layouts/Detail';
 
 
 const Details = () => {
   const {name} = useParams();
+  const dispatch = useDispatch()
 
-  const [country, setCountry] = useState([]);
-
-  const getCountry = async (name) => {
-    const resp = await fetch(`https://restcountries.eu/rest/v2/name/${name}`);
-    const country = await resp.json();
-    setCountry(country);
-  }
+  const fetchCountry = useSelector(state => state.fetchCountry)
+  const { loading, country, error } = fetchCountry
 
   useEffect(() => {
-    getCountry(name);
-  }, [name]);
+    dispatch(fetchCountryByName(name))
+  }, [dispatch, name]);
 
   return (
     <div>
+      {loading && <Loader />}
+      {error && <h3>{error}</h3>}
       {country.map(c => {
-        const { alpha2Code} = c;
-        return <Detail key={alpha2Code} country={c} />        
+        const { cca2 } = c;
+        return <Detail key={cca2} country={c} />        
       })}
     </div>
     

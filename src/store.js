@@ -1,12 +1,13 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import { fetchCoutriesReducer } from './reducers/countriesReducers'
+import { fetchCountriesReducer, fetchCountryReducer } from './reducers/countriesReducers'
 
 const initialState = {}
 
 const reducers = combineReducers({
-  fetchCountries: fetchCoutriesReducer
+  fetchCountries: fetchCountriesReducer,
+  fetchCountry: fetchCountryReducer,
 })
 
 const middleware = [thunk]

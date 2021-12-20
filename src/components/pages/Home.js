@@ -9,7 +9,6 @@ const Home = () => {
 
   const fetchCountries = useSelector(state => state.fetchCountries)
   const { countries, loading, error } = fetchCountries
-  console.log(countries);
 
   useEffect(() => {
     dispatch(fetchAllCountries())
