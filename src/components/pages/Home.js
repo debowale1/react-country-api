@@ -1,39 +1,45 @@
-import React, {useEffect } from 'react'
+import React, {useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import CountryCard from '../layouts/CountryCard';
 import Loader from '../../components/Loader'
-import {fetchAllCountries} from '../../actions/countryActions'
+// import SearchForm from '../SearchForm';
+import {fetchAllCountries } from '../../actions/countryActions'
 
-const Home = () => {   
+const Home = () => { 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [countryName, setCountryName] = useState('')
 
   const fetchCountries = useSelector(state => state.fetchCountries)
   const { countries, loading, error } = fetchCountries
 
   useEffect(() => {
-    dispatch(fetchAllCountries())
+    dispatch(fetchAllCountries(countryName))
   }, [dispatch])
 
-  //  const onChange = (e) => {
-  //    const {name} = e.target;
-  //   this.setState({[name]: e.target.value});
-  //  }
 
-  //  const onSubmit = (e) => {
-  //    e.preventDefault();
-  //    console.log(this.state.name);
-  //  }
+  const handleSearchSubmit =(e) => {
+    e.preventDefault()
+    console.log(countryName);
+    if(countryName.trim()){
+      navigate(`/search/${countryName}`)
+    }else{
+      navigate('/')
+    }
+  }
+
    return (        
           <>
           <div className="forms-container">
-          <form className="name-search-form" id="name-search-form">
+          <form onSubmit={handleSearchSubmit} className="name-search-form" id="name-search-form">
             <input 
               type="text" 
               className="name-search-form__input" 
               placeholder="search for a country..."
-              name='name'
-              // value={}
-              // onChange={onChange}
+              name='q'
+              value={countryName}
+              onChange={(e) => setCountryName(e.target.value)}
             />
             <input type="submit" style={{display:"none"}} />
           </form>
@@ -51,8 +57,7 @@ const Home = () => {
         <div className="countries__flags">  
           {loading && <Loader />}
           {error && error}
-          {countries.map((country, id) => <CountryCard key={id} country={country} />)}      
-          
+          {countries.map((country, id) => <CountryCard key={id} country={country} />)}          
         </div>
         </>
         );

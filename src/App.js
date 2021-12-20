@@ -13,8 +13,9 @@ const App = () => {
           <section className="countries">
             <div className="container">
               <Routes>
-                <Route exact path='/' element={<Home />} />
                 <Route path='/:name/details' element={<Details />} />
+                <Route path='/search/:countryName' element={<Home />} />
+                <Route exact path='/' element={<Home />} />
               </Routes>
             </div>
           </section>
